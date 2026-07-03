@@ -1,0 +1,5 @@
+total_seconds = int(input("Enter the duration in seconds: "))
+hours = str(total_seconds // 3600)
+minutes = str(total_seconds % 3600 // 60)
+seconds = str(total_seconds % 3600 % 60)
+print(f"The duration is: {hours} hours, {minutes} minutes, and {seconds} seconds")
