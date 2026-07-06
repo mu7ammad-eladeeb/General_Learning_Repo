@@ -40,9 +40,7 @@ Create an iterator that generates a sequence of even numbers up to a given limit
 The solution code is provided in the `even_iterator.py` file. Run it using:
 ```bash
 python even_iterator.py
-
----
-
+```
 ## StopIteration Exception
 
 The `StopIteration` exception is a crucial component (an essential, built-in part) in Python's iterator protocol (protocol = the set of rules an object must follow). It signals the end of an iteration sequence and plays a vital role in controlling iterator behavior.
