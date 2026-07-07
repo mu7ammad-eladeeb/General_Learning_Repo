@@ -320,3 +320,118 @@ sleep(1)
 
   How do we import only one function? `from module import function`
   -----------------------------------------------------------------------
+# Python Modules: Importing, Aliasing, and the math Module
+
+This section covers how to import built-in modules (module = a file containing pre-written Python code you can reuse), use specific functions from them, and give them shorter names (aliases) for convenience.
+
+---
+
+## Importing a Module
+
+To use functions from Python's built-in `math` module (a module containing mathematical functions and constants), you import it first:
+
+```python
+import math
+```
+
+Once imported, you access its functions using dot notation (dot notation = accessing something inside an object using a period, like `module.function`), e.g., `math.sqrt()`, `math.ceil()`.
+
+---
+
+## Example: math.sqrt()
+
+```python
+import math
+print(math.sqrt(10000))
+```
+
+**Output:**
+```
+100.0
+```
+
+`math.sqrt()` returns the square root (square root = the number that, when multiplied by itself, gives the original number) of a number. Note that the result is always a float (float = a number with a decimal point), even if the answer is a whole number — this is correct behavior, not a bug.
+
+---
+
+## Example: math.ceil()
+
+```python
+import math
+print(math.ceil(65.9))
+```
+
+**Output:**
+```
+66
+```
+
+`math.ceil()` rounds a number **up** (ceil = short for "ceiling," meaning the nearest whole number equal to or greater than the given value) to the nearest integer (integer = a whole number, no decimals), regardless of how small the decimal part is.
+
+---
+
+## Importing Multiple Modules at Once
+
+You can import more than one module in a single line by separating them with commas:
+
+```python
+import statistics, math
+
+number_of_cases = [2, 2, 4, 5]
+result = statistics.mean(number_of_cases)
+print(f"Mean cases: {result}")
+```
+
+**Output:**
+```
+Mean cases: 3.25
+```
+
+`statistics.mean()` calculates the average (mean = the sum of all values divided by how many there are) of a list of numbers.
+
+---
+
+## Importing Specific Functionality with `from`
+
+Instead of importing an entire module, you can import just one specific piece of it using the `from` keyword:
+
+```python
+from math import pi
+print(pi)
+```
+
+**Output:**
+```
+3.141592653589793
+```
+
+The `from` keyword allows you to import parts of a module's functionality (rather than the whole module), so you can call `pi` directly instead of writing `math.pi`.
+
+---
+
+## Aliasing Modules (Giving Modules a Shorter Name)
+
+Aliasing (aliasing = giving something an alternate, usually shorter, name) is done using the `as` keyword. This is useful for modules with long names that you'll reference often.
+
+```python
+import statistics as stats
+```
+
+Now `stats` can be used anywhere you'd normally write `statistics`.
+
+### Another Example:
+
+```python
+import math as mths
+```
+
+This renames the `math` module to `mths` for the rest of the script (script = a Python file containing a sequence of instructions).
+
+---
+
+## Key Takeaways
+
+1. `import module_name` — imports an entire module.
+2. `import module_one, module_two` — imports multiple modules in one line.
+3. `from module_name import function_name` — imports only a specific function or constant (constant = a fixed value that doesn't change, like `pi`) from a module, letting you call it directly without the module prefix (prefix = the module name written before the dot, like `math.`).
+4. `import module_name as alias` — renames a module to a shorter or more convenient name using the `as` keyword. This process is called **aliasing**.
