@@ -435,3 +435,460 @@ This renames the `math` module to `mths` for the rest of the script (script = a 
 2. `import module_one, module_two` — imports multiple modules in one line.
 3. `from module_name import function_name` — imports only a specific function or constant (constant = a fixed value that doesn't change, like `pi`) from a module, letting you call it directly without the module prefix (prefix = the module name written before the dot, like `math.`).
 4. `import module_name as alias` — renames a module to a shorter or more convenient name using the `as` keyword. This process is called **aliasing**.
+
+
+markdown_content = """# Python Syntax Errors: A Complete Guide
+
+> A comprehensive guide to understanding, identifying, and fixing Python `SyntaxError` and `IndentationError`.
+
+
+## What is a SyntaxError?
+
+Sometimes Python is unable to understand our code. This results in something called a **`SyntaxError`**.
+
+When Python encounters code it cannot parse, it stops execution and displays an error message in the console pointing to where the problem occurred.
+
+---
+
+## Common Causes of SyntaxError
+
+### 1. Misspelled Keywords
+
+Syntax errors are usually due to typos, such as misspelled keywords.
+
+**Example:** Using `iff` instead of `if` at the beginning of a code block.
+
+```python
+# ❌ Incorrect
+iff cost > 10:
+```
+
+**Output:**
+```
+File "script.py", line 1
+  iff cost > 10
+      ^
+SyntaxError: invalid syntax
+```
+
+**Fix:** Always double-check keyword spelling. Python keywords include: `if`, `else`, `elif`, `for`, `while`, `def`, `class`, `return`, `import`, etc.
+
+---
+
+### 2. Incorrect or Missing Indentation
+
+Incorrect or missing indentation will result in an **`IndentationError`**, which is a specific type of `SyntaxError`.
+
+**Example:** Missing indentation after an `if` statement.
+
+```python
+# ❌ Incorrect
+if cost > 10:
+print("Too expensive.")
+```
+
+**Output:**
+```
+File "script.py", line 2
+  print("Too expensive.")
+  ^
+IndentationError: expected an indented block
+```
+
+**Fix:** Always indent the block of code under a colon (`:`) by 4 spaces (or 1 tab, consistently).
+
+```python
+# ✅ Correct
+if cost > 10:
+    print("Too expensive.")
+```
+
+---
+
+### 3. Keywords in Wrong Places
+
+Putting a keyword in the wrong place will also cause a `SyntaxError`.
+
+**Example:** Using `for` incorrectly inside a list literal.
+
+```python
+# ❌ Incorrect
+* 1 for item in [1, 2, 3]
+```
+
+**Output:**
+```
+File "script.py", line 1
+  * 1 for item in [1, 2, 3]
+      ^
+SyntaxError: invalid syntax
+```
+
+**Fix:** Ensure keywords are used in their proper syntactic context.
+
+---
+
+### 4. Incomplete Statements
+
+If we try to run incomplete statements, we'll also receive a `SyntaxError`.
+
+**Example:** An `if` statement without a body.
+
+```python
+# ❌ Incorrect
+if cost > 10:
+```
+
+**Output:**
+```
+File "script.py", line 2
+
+  ^
+SyntaxError: unexpected EOF while parsing
+```
+
+> **EOF** stands for "End of File." This error means Python reached the end of the file while still expecting more code.
+
+**Fix:** Complete all statements with proper blocks or use `pass` as a placeholder.
+
+```python
+# ✅ Correct
+if cost > 10:
+    pass  # placeholder for future code
+```
+
+---
+
+### 5. Missing Symbols (Colons, Brackets)
+
+Leaving out symbols, such as colons and brackets, will also cause a `SyntaxError`.
+
+**Example:** Missing colon (`:`) after an `if` condition.
+
+```python
+# ❌ Incorrect
+if cost < 10
+  print('You can buy it.')
+```
+
+**Output:**
+```
+File "script.py", line 1
+  if cost < 10
+              ^
+SyntaxError: invalid syntax
+```
+
+**Fix:** Always include required punctuation:
+- Colon (`:`) after `if`, `else`, `elif`, `for`, `while`, `def`, `class`, `try`, `except`
+- Matching brackets `()`, `[]`, `{}`
+
+```python
+# ✅ Correct
+if cost < 10:
+    print('You can buy it.')
+```
+
+---
+
+### 6. Using Strings as Variable Names
+
+Sometimes Python can add more detail to the error, like in the following code where a string is mistakenly used as a variable name.
+
+**Example:** Trying to assign a value to a string literal.
+
+```python
+# ❌ Incorrect
+"name" = "John"
+```
+
+**Output:**
+```
+File "script.py", line 1
+  "name" = "John"
+  ^
+SyntaxError: can't assign to literal
+```
+
+**Fix:** Variable names must not be quoted strings.
+
+```python
+# ✅ Correct
+name = "John"
+```
+
+---
+
+### 7. Assigning to Function Calls
+
+Similarly, you cannot assign a value to a function call.
+
+**Example:** Trying to assign to `len()`.
+
+```python
+# ❌ Incorrect
+len('Happy Birthday') = 6
+```
+
+**Output:**
+```
+File "script.py", line 1
+  len('Happy Birthday') = 6
+                        ^
+SyntaxError: can't assign to function call
+```
+
+**Fix:** Use variables to store results, not function calls.
+
+```python
+# ✅ Correct
+length = len('Happy Birthday')
+```
+
+---
+
+## Understanding Error Messages
+
+The **`^`** symbol, known as a **caret**, indicates in the console where the error has been found in the code.
+
+```
+File "script.py", line 1
+  len('Happy Birthday') = 6
+                        ^
+SyntaxError: can't assign to function call
+```
+
+> **Tip:** The caret points to the exact location where Python detected the syntax violation. Always read the error message carefully — it tells you the file, line number, and type of error.
+
+---
+
+## Knowledge Check: Quiz
+
+Test your understanding with these questions:
+
+### Question 1
+**Which statement will result in a SyntaxError?**
+
+```python
+age = 16
+```
+```python
+while age < 11:    # ❌ SyntaxError: expected an indented block after 'while' statement
+```
+
+> **Answer:** `wile age < 11:` — Misspelled keyword.
+
+---
+
+### Question 2
+**What error will appear if there are extra blank spaces in the code?**
+
+- `Indentation Error` ✅
+- `Syntax Error`
+
+> **Answer:** `Indentation Error` — Extra or inconsistent whitespace causes indentation issues.
+
+---
+
+### Question 3
+**Which statement will result in a SyntaxError?**
+
+```python
+print("help")
+```
+```python
+else print("hello")    # ❌ SyntaxError: 'else' without matching 'if'
+```
+
+> **Answer:** `else print("hello")` — `else` must follow an `if` block.
+
+---
+
+### Question 4
+**Which statement will result in a SyntaxError?**
+
+```python
+total = 5 + 3 + 8
+```
+```python
+total = 5 + 3  8    # ❌ SyntaxError: invalid syntax (missing operator)
+```
+
+> **Answer:** `total = 5 + 3  8` — Missing operator between `3` and `8`.
+
+---
+
+### Question 5
+**Which error will the following code produce?**
+
+```python
+if 75 > 50:
+```
+
+- `SyntaxError: can't assign to literal`
+- `SyntaxError: unexpected EOF while parsing` ✅
+
+> **Answer:** `SyntaxError: unexpected EOF while parsing` — The `if` statement is incomplete (missing body).
+
+---
+
+### Question 6
+**Which character in an error message can help us work out where the error in the code is?**
+
+- A hashtag `#`
+- A caret `^` ✅
+
+> **Answer:** A caret `^` — It points directly to the error location.
+
+---
+
+## Hands-On Exercises
+
+### Exercise 1: Fix the If Statement
+
+**Task:** Add an `if` statement that does not result in a `SyntaxError`.
+
+```python
+attendance = 11
+if attendance > 10:
+    print("We are full.")
+```
+
+**Output:**
+```
+We are full.
+```
+
+---
+
+### Exercise 2: Fix the Indentation
+
+**Task:** Complete the `print()` statement and avoid an `IndentationError`.
+
+```python
+values = [2, 8, 7]
+for value in values:
+    print(value)
+```
+
+**Output:**
+```
+2
+8
+7
+```
+
+---
+
+### Exercise 3: Write a Valid Conditional
+
+**Task:** Code a statement which does not result in an error.
+
+```python
+apples = 5
+oranges = 1
+if apples < 3 or oranges < 3:
+    print("low stock")
+```
+
+**Output:**
+```
+low stock
+```
+
+---
+
+### Exercise 4: Complete the Calculation
+
+**Task:** Complete this statement without producing a `SyntaxError`.
+
+```python
+bill = 50 * 1.2
+print(bill)
+```
+
+**Output:**
+```
+60.0
+```
+
+---
+
+### Exercise 5: Complete the Code to Print a Value
+
+**Task:** Complete the code so that `value` is printed.
+
+```python
+value = 50
+if value >= 20:
+    print(value)
+```
+
+**Output:**
+```
+50
+```
+
+---
+
+### Exercise 6: Produce a Specific SyntaxError
+
+**Task:** Complete the code so that an error is produced in the console.
+
+```python
+"david" = name
+```
+
+**Output:**
+```
+File "script.py", line 1
+  "david" = name
+  ^
+SyntaxError: can't assign to literal
+```
+
+---
+
+### Exercise 7: Produce an EOF Error
+
+**Task:** Complete the code to produce a `SyntaxError`.
+
+```python
+users = ["Alan", "Betty", "Clara"]
+if "Betty" in users:
+```
+
+**Output:**
+```
+File "script.py", line 3
+
+  ^
+SyntaxError: unexpected EOF while parsing
+```
+
+---
+
+## Quick Reference Table
+
+| Error Type | Common Cause | Example Fix |
+|---|---|---|
+| `SyntaxError: invalid syntax` | Misspelled keyword | `if` not `iff` |
+| `IndentationError` | Missing/extra indentation | Indent block after `:` |
+| `SyntaxError: unexpected EOF while parsing` | Incomplete statement | Add body after `if`/`for`/`while` |
+| `SyntaxError: can't assign to literal` | String used as variable | `name = "John"` not `"name" = "John"` |
+| `SyntaxError: can't assign to function call` | Assigning to function result | `x = len(s)` not `len(s) = x` |
+| Missing colon | Forgot `:` after condition | `if x > 5:` |
+| Missing operator | Two values without operator | `5 + 3 + 8` not `5 + 3  8` |
+
+---
+
+## Summary
+
+- **SyntaxError** occurs when Python cannot parse your code.
+- **IndentationError** is a specific type of syntax error related to whitespace.
+- The **caret (`^`)** in error messages points to the exact location of the issue.
+- Common causes include: typos, missing colons, bad indentation, incomplete statements, and invalid assignments.
+- Always read error messages carefully — they tell you the **file**, **line number**, and **type of error**.
+
+---
+
