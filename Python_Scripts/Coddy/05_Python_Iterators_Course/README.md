@@ -282,3 +282,205 @@ A class can be:
    - Returns a separate iterator object that implements `__next__()`.
 
 This distinction is an important part of Python's iterator protocol.
+
+# Implementing `__next__()` in Python
+
+> **Source:** Python Iterator Protocol Notes
+
+---
+
+# 📖 CONCEPT OVERVIEW
+
+The `__next__()` method is a crucial part of creating custom iterators in Python. It defines how to retrieve the next item in the iteration sequence.
+
+When implementing `__next__()`, you control the behavior of your iterator, determining what values it produces and when it should stop.
+
+---
+
+# 🎯 Purpose of `__next__()`
+
+The `__next__()` method serves **two main purposes**:
+
+1. Return the next item in the sequence.
+2. Raise a `StopIteration` exception when there are no more items.
+
+---
+
+# 🛠️ Implementing `__next__()`
+
+Here is the basic structure for implementing `__next__()`:
+
+```python
+class MyIterator:
+    def __init__(self, data):
+        self.data = data
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index >= len(self.data):
+            raise StopIteration
+
+        result = self.data[self.index]
+        self.index += 1
+        return result
+```
+
+---
+
+# 🔑 Key Aspects of `__next__()`
+
+## 1. State Management
+
+Keep track of the current state of iteration (for example, using an index).
+
+## 2. Return Next Item
+
+Determine and return the next item in the sequence.
+
+## 3. StopIteration
+
+Raise `StopIteration` when there are no more items.
+
+## 4. Side Effects
+
+Update any necessary internal state for the next iteration.
+
+---
+
+# 💻 Example: Custom Range Iterator
+
+Here's an example of a custom iterator that mimics a simplified version of Python's `range()`:
+
+```python
+class CustomRange:
+    def __init__(self, start, end):
+        self.current = start
+        self.end = end
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.current >= self.end:
+            raise StopIteration
+
+        result = self.current
+        self.current += 1
+        return result
+
+# Using the custom range iterator
+for num in CustomRange(1, 5):
+    print(num)
+```
+
+## Expected Output
+
+```text
+1
+2
+3
+4
+```
+
+---
+
+# 📝 Explanation of the Example
+
+In this example:
+
+- `__next__()` returns the current number.
+- It increments the number for the next iteration.
+- When it reaches the ending value, it raises `StopIteration`.
+- The exception tells the `for` loop that there are no more values to iterate over.
+
+---
+
+# ⚙️ Step-by-Step Execution
+
+1. `CustomRange(1, 5)` creates a new iterator.
+2. The `for` loop automatically calls:
+
+```python
+iter(custom_range)
+```
+
+which invokes:
+
+```python
+custom_range.__iter__()
+```
+
+3. Since `__iter__()` returns `self`, the object acts as its own iterator.
+
+4. The `for` loop repeatedly calls:
+
+```python
+custom_range.__next__()
+```
+
+5. Each call:
+
+- Checks whether the end has been reached.
+- Returns the current value.
+- Increments the current value.
+
+6. Once `current >= end`, Python raises:
+
+```python
+StopIteration
+```
+
+7. The `for` loop ends automatically.
+
+---
+
+# 📌 Original Conclusion
+
+By implementing `__next__()`, you define the core behavior of your iterator, allowing it to work seamlessly with Python's iteration mechanisms like `for` loops and the `next()` function.
+
+---
+
+# 📋 Quick Summary
+
+| Concept | Description |
+|---------|-------------|
+| `__next__()` | Returns the next item in the iterator. |
+| `StopIteration` | Signals that there are no more items. |
+| State Management | Keeps track of the iterator's current position. |
+| Return Next Item | Produces the next value. |
+| Side Effects | Updates internal state for future iterations. |
+| `iter(obj)` | Calls `obj.__iter__()`. |
+| `next(obj)` | Calls `obj.__next__()`. |
+
+---
+
+# 🧠 Memory Tips
+
+- `__iter__()` → "Start iterating."
+- `__next__()` → "Give me the next item."
+- `StopIteration` → "Iteration is finished."
+
+A `for` loop automatically calls `__iter__()` once and `__next__()` repeatedly until `StopIteration` is raised.
+
+---
+
+# ✅ Complete Checklist
+
+This document preserves:
+
+- Every concept from the original lesson.
+- Every purpose.
+- Every key aspect.
+- The complete code example.
+- The expected output.
+- The original concluding explanation.
+
+It also adds:
+
+- Better organization.
+- Step-by-step execution.
+- Summary table.
+- Memory tips.
