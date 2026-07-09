@@ -484,3 +484,445 @@ It also adds:
 - Step-by-step execution.
 - Summary table.
 - Memory tips.
+
+# Infinite Iterators in Python
+
+## What Are Infinite Iterators?
+
+**Infinite iterators** are a special type of iterator in Python that can potentially generate an endless sequence of values.
+
+Unlike **finite iterators**, which eventually raise a `StopIteration` exception when all values have been produced, infinite iterators continue generating values indefinitely.
+
+Infinite iterators are useful when a program needs a continuous stream of data without a predefined endpoint.
+
+---
+
+# Characteristics of Infinite Iterators
+
+Infinite iterators have several defining characteristics:
+
+- They **never raise a `StopIteration` exception**.
+- They continuously generate values without ending.
+- They are useful for generating continuous sequences or simulating endless streams of data.
+- They must be used carefully to avoid creating infinite loops.
+
+Because they never stop automatically, programmers usually include a condition that explicitly ends the loop.
+
+---
+
+# Creating an Infinite Iterator
+
+An infinite iterator can be created by implementing Python's iterator protocol.
+
+The iterator must define:
+
+- `__iter__()` — returns the iterator object itself.
+- `__next__()` — returns the next value each time it is called.
+
+Unlike a finite iterator, `__next__()` never raises `StopIteration`.
+
+## Example
+
+```python
+class InfiniteCounter:
+    def __init__(self, start=0):
+        self.count = start
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        current = self.count
+        self.count += 1
+        return current
+
+# Usage
+counter = InfiniteCounter()
+
+for i in counter:
+    print(i)
+    if i >= 5:
+        break  # Prevent infinite loop
+```
+
+### Output
+
+```text
+0
+1
+2
+3
+4
+5
+```
+
+---
+
+# How the Example Works
+
+When the object is created:
+
+```python
+counter = InfiniteCounter()
+```
+
+the constructor initializes:
+
+```python
+self.count = 0
+```
+
+The `for` loop begins by calling:
+
+```python
+iter(counter)
+```
+
+which executes:
+
+```python
+__iter__()
+```
+
+This method simply returns the iterator itself:
+
+```python
+return self
+```
+
+Next, the loop repeatedly calls:
+
+```python
+next(counter)
+```
+
+Each call to `__next__()` performs the following steps:
+
+1. Stores the current value.
+2. Increments the counter.
+3. Returns the stored value.
+
+For example:
+
+First call:
+
+```python
+current = 0
+self.count = 1
+return 0
+```
+
+Second call:
+
+```python
+current = 1
+self.count = 2
+return 1
+```
+
+Third call:
+
+```python
+current = 2
+self.count = 3
+return 2
+```
+
+This process continues forever because `__next__()` never raises `StopIteration`.
+
+The loop only stops because of:
+
+```python
+if i >= 5:
+    break
+```
+
+Without this `break` statement, the program would continue printing numbers indefinitely.
+
+---
+
+# Why Doesn't an Infinite Iterator Stop?
+
+A normal iterator eventually executes something similar to:
+
+```python
+raise StopIteration
+```
+
+An infinite iterator never reaches this point.
+
+Instead, it always computes and returns another value.
+
+For example:
+
+```python
+def __next__(self):
+    current = self.count
+    self.count += 1
+    return current
+```
+
+Every call to `next()` produces another number, allowing the iterator to continue forever.
+
+---
+
+# Built-in Infinite Iterators
+
+Python's `itertools` module provides several ready-made infinite iterators.
+
+---
+
+## `itertools.count()`
+
+Creates an iterator that counts upward forever.
+
+### Syntax
+
+```python
+itertools.count(start=0, step=1)
+```
+
+### Parameters
+
+- **start** — The value where counting begins.
+- **step** — The amount added after each iteration.
+
+### Example
+
+```python
+from itertools import count
+
+for i in count(10):
+    print(i)
+    if i >= 15:
+        break
+```
+
+### Output
+
+```text
+10
+11
+12
+13
+14
+15
+```
+
+### Explanation
+
+The iterator begins at **10**.
+
+Each iteration increases the value by **1**.
+
+Without the `break` statement, the output would continue forever:
+
+```text
+10
+11
+12
+13
+14
+15
+16
+17
+18
+...
+```
+
+---
+
+## `itertools.cycle()`
+
+Cycles through an iterable indefinitely.
+
+### Syntax
+
+```python
+itertools.cycle(iterable)
+```
+
+### Example
+
+```python
+from itertools import cycle
+
+colors = cycle(["Red", "Green", "Blue"])
+
+for i, color in enumerate(colors):
+    print(color)
+
+    if i == 8:
+        break
+```
+
+### Output
+
+```text
+Red
+Green
+Blue
+Red
+Green
+Blue
+Red
+Green
+Blue
+```
+
+### Explanation
+
+After reaching the last element:
+
+```text
+Blue
+```
+
+the iterator automatically starts again from the beginning:
+
+```text
+Red
+```
+
+This process repeats indefinitely.
+
+---
+
+## `itertools.repeat()`
+
+Repeats the same element indefinitely or a specified number of times.
+
+### Syntax
+
+```python
+itertools.repeat(element)
+```
+
+or
+
+```python
+itertools.repeat(element, n)
+```
+
+### Example (Infinite)
+
+```python
+from itertools import repeat
+
+for i, value in enumerate(repeat("Python")):
+    print(value)
+
+    if i == 4:
+        break
+```
+
+### Output
+
+```text
+Python
+Python
+Python
+Python
+Python
+```
+
+### Example (Finite)
+
+```python
+from itertools import repeat
+
+for value in repeat("Python", 3):
+    print(value)
+```
+
+### Output
+
+```text
+Python
+Python
+Python
+```
+
+### Explanation
+
+If the second argument (`n`) is omitted, the iterator repeats the element forever.
+
+If `n` is provided, the element is repeated exactly `n` times.
+
+---
+
+# Common Uses of Infinite Iterators
+
+Infinite iterators are useful in situations where data needs to be generated continuously.
+
+Examples include:
+
+- Generating sequential IDs.
+- Producing timestamps.
+- Simulating sensor readings.
+- Cycling through playlists.
+- Creating endless game loops.
+- Repeating animations.
+- Processing streaming data.
+- Continuously generating values for testing.
+
+---
+
+# Potential Problems
+
+Since infinite iterators never stop automatically, they can easily create unintended infinite loops.
+
+For example:
+
+```python
+counter = InfiniteCounter()
+
+for number in counter:
+    print(number)
+```
+
+This program will never terminate because the iterator never raises `StopIteration`.
+
+The output continues indefinitely:
+
+```text
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+...
+```
+
+---
+
+# Cautions and Best Practices
+
+When working with infinite iterators:
+
+- Always include a stopping condition when iterating over them.
+- Use `break` statements whenever appropriate.
+- Avoid accidentally creating infinite loops.
+- Use infinite iterators only when an endless sequence is actually required.
+- Consider using **generator functions** for creating memory-efficient infinite sequences.
+
+Following these practices ensures that your program remains responsive and behaves as expected.
+
+---
+
+# Summary
+
+Infinite iterators are iterators that never end because they never raise the `StopIteration` exception. They continuously generate values, making them ideal for applications that require endless data streams or repeating sequences.
+
+Python's `itertools` module provides three commonly used infinite iterators:
+
+- `itertools.count()` — Counts upward indefinitely.
+- `itertools.cycle()` — Repeats an iterable forever.
+- `itertools.repeat()` — Repeats a single element indefinitely or a specified number of times.
+
+Although powerful, infinite iterators should always be used with care. Always include a mechanism—such as a `break` statement or another stopping condition—to prevent unintended infinite loops.
