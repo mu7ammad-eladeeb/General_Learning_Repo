@@ -892,3 +892,415 @@ SyntaxError: unexpected EOF while parsing
 
 ---
 
+# Python Exceptions: A Complete Guide
+
+> A comprehensive guide to understanding Python exceptions, tracebacks, and common runtime errors.
+
+---
+
+## What Are Exceptions?
+
+Sometimes Python understands our code, but cannot execute it. When Python cannot perform an operation, it raises an **exception**.
+
+Python will raise an **exception** when it cannot perform an operation. It will show one for the given code since a variable isn't defined.
+
+---
+
+## Understanding the Traceback
+
+The text shown in the console when an exception is raised is called the **traceback**. It helps us **debug** our code, which means finding errors.
+
+A typical traceback looks like this:
+
+```
+Traceback (most recent call last):
+  File "script.py", line 1, in <module>
+    share = 100 / 0
+ZeroDivisionError: division by zero
+```
+
+> **Tip:** Always read the traceback from bottom to top. The last line tells you the error type and message, while the lines above show where it occurred.
+
+---
+
+## Common Exception Types
+
+### ZeroDivisionError
+
+Raised when you try to divide a number by zero.
+
+**Example:**
+
+```python
+# ❌ Incorrect
+share = 100 / 0
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 1, in <module>
+    share = 100 / 0
+ZeroDivisionError: division by zero
+```
+
+**Fix:** Always check that the denominator is not zero before dividing.
+
+```python
+# ✅ Correct
+divisor = 0
+if divisor != 0:
+    share = 100 / divisor
+else:
+    print("Cannot divide by zero!")
+```
+
+---
+
+### NameError
+
+Raised when you try to use a variable that doesn't exist or hasn't been defined.
+
+**Example 1:** Using an undefined variable in an expression.
+
+```python
+# ❌ Incorrect
+share = size / 6
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 1, in <module>
+    share = size / 6
+NameError: name "size" is not defined
+```
+
+**Example 2:** Referencing a variable that doesn't exist in a loop.
+
+```python
+# ❌ Incorrect
+for student in ["Mark", "Andreas", "Irina"]:
+    score = results[student]
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 2, in <module>
+    score = results[student]
+NameError: name "results" is not defined
+```
+
+**Fix:** Define all variables before using them.
+
+```python
+# ✅ Correct
+size = 120
+share = size / 6
+
+results = {"Mark": 85, "Andreas": 92, "Irina": 78}
+for student in ["Mark", "Andreas", "Irina"]:
+    score = results[student]
+```
+
+---
+
+### KeyError
+
+Raised when you try to access a dictionary key that doesn't exist.
+
+**Example:**
+
+```python
+# ❌ Incorrect
+details = {"name": "Pablo",
+           "age": 27}
+
+details["email"]
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 4, in <module>
+    details["email"]
+KeyError: "email"
+```
+
+**Fix:** Use `.get()` to safely access dictionary keys, or check if the key exists first.
+
+```python
+# ✅ Correct
+details = {"name": "Pablo", "age": 27}
+
+# Method 1: Using .get() (returns None if key doesn't exist)
+email = details.get("email")
+
+# Method 2: Check if key exists
+if "email" in details:
+    print(details["email"])
+else:
+    print("Email not found")
+```
+
+---
+
+### TypeError
+
+Raised when an operation is performed on an inappropriate type.
+
+**Example:** Adding a string and an integer.
+
+```python
+# ❌ Incorrect
+"3" + 1
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 1, in <module>
+    "3" + 1
+TypeError: must be str, not int
+```
+
+**Fix:** Convert types before performing operations.
+
+```python
+# ✅ Correct
+# Convert int to str for concatenation
+result = "3" + str(1)  # "31"
+
+# Or convert str to int for arithmetic
+result = int("3") + 1  # 4
+```
+
+> **`ZeroDivisionError`**, **`NameError`**, and **`TypeError`** are examples of different types of exceptions.
+
+---
+
+### FileNotFoundError
+
+Raised when trying to open a file that doesn't exist.
+
+**Example:**
+
+```python
+# ❌ Incorrect
+with open("myfile.txt"):
+    print(file)
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 1, in <module>
+    with open("myfile.txt"):
+FileNotFoundError: [Errno 2] No such file or directory: "myfile.txt"
+```
+
+**Fix:** Check if the file exists before opening, or handle the exception.
+
+```python
+# ✅ Correct
+import os
+
+if os.path.exists("myfile.txt"):
+    with open("myfile.txt") as file:
+        print(file.read())
+else:
+    print("File not found!")
+```
+
+> We'll encounter many types of exceptions when creating programs, relating to things such as indexing, file references, and variables.
+
+---
+
+### AttributeError
+
+Raised when you try to access an attribute or method that doesn't exist for an object.
+
+**Example:** Calling a `.mean()` method on a list (lists don't have this method).
+
+```python
+# ❌ Incorrect
+scores = [25, 70, 45]
+scores.mean()
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 2, in <module>
+    scores.mean()
+AttributeError: "list" object has no attribute "mean"
+```
+
+**Fix:** Use the correct method or import the appropriate module.
+
+```python
+# ✅ Correct
+import statistics
+
+scores = [25, 70, 45]
+average = statistics.mean(scores)
+print(average)
+```
+
+> Objects may not have attributes or methods that we think they have, like using a mean function that does not exist for lists.
+
+---
+
+## Safe Operations That Don't Raise Exceptions
+
+Some methods don't produce errors and are able to handle issues themselves.
+
+**Example:** The `.count()` method returns zero when the item doesn't exist in the list.
+
+```python
+# ✅ Safe - no exception raised
+grades = ["A", "B", "C"]
+print(grades.count("D"))
+```
+
+**Output:**
+```
+0
+```
+
+> The `count()` method returns zero when nothing exists — it doesn't raise an error.
+
+---
+
+## Knowledge Check: Quiz
+
+### Question 1
+**Which type of exception will this code raise?**
+
+```python
+print("Hello, " + user)
+```
+
+- `TypeError`
+- `NameError` ✅
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 1, in <module>
+    print("Hello, " + user)
+NameError: name "user" is not defined
+```
+
+> **Answer:** `NameError` — The variable `user` is not defined.
+
+---
+
+### Question 2
+**Which of the following will result in a `NameError`?**
+
+- Using a string which is very long as a variable name
+- Referencing a variable that doesn't exist ✅
+
+> **Answer:** Referencing a variable that doesn't exist — `NameError` occurs when Python cannot find the variable name in the current scope.
+
+---
+
+### Question 3
+**Will this code raise an exception?**
+
+```python
+users = ["Alex", "Ben", "Chelsea"]
+if "Diane" in users:
+    print("User found")
+```
+
+- Yes, using `in` in this context produces an error
+- No, as using `in` on the list where the value isn't present does not cause an error ✅
+
+> **Answer:** No exception — The `in` operator safely returns `False` when the value isn't found. It does not raise an error.
+
+---
+
+## Hands-On Exercises
+
+### Exercise 1: Raise a ZeroDivisionError
+
+**Task:** Code a statement which will raise a `ZeroDivisionError`.
+
+```python
+average = 100 / 0
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 1, in <module>
+    average = 100 / 0
+ZeroDivisionError: division by zero
+```
+
+---
+
+### Exercise 2: Raise a NameError
+
+**Task:** Code a statement which will raise a `NameError`.
+
+```python
+users = ["Alice", "Barbara"]
+members.append("Kevin")
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 2, in <module>
+    members.append("Kevin")
+NameError: name "members" is not defined
+```
+
+> The variable `members` was never defined — only `users` was.
+
+---
+
+### Exercise 3: Print False Without Raising an Exception
+
+**Task:** Add a statement which prints `False`, without raising an exception.
+
+```python
+print("Paris" in ["London", "New York", "France"])
+```
+
+**Output:**
+```
+False
+```
+
+> The `in` operator safely checks membership and returns `False` when the item is not found.
+
+---
+
+## Quick Reference Table
+
+| Exception | Cause | Example Fix |
+|---|---|---|
+| `ZeroDivisionError` | Division by zero | Check divisor `!= 0` |
+| `NameError` | Variable not defined | Define variable before use |
+| `KeyError` | Dictionary key not found | Use `.get()` or check `in` |
+| `TypeError` | Wrong type for operation | Convert types with `int()`, `str()` |
+| `FileNotFoundError` | File doesn't exist | Check `os.path.exists()` |
+| `AttributeError` | Method/attribute doesn't exist | Use correct method or import module |
+
+---
+
+## Summary
+
+- **Exceptions** occur when Python understands the code but cannot execute it.
+- The **traceback** is the error message shown in the console — it helps us **debug** our code.
+- Common exceptions include: `ZeroDivisionError`, `NameError`, `KeyError`, `TypeError`, `FileNotFoundError`, and `AttributeError`.
+- Some operations are **safe** and don't raise exceptions (e.g., `.count()` returns `0` instead of error).
+- The `in` operator is safe for checking membership in lists — it returns `False` rather than raising an error.
+
+---
+
