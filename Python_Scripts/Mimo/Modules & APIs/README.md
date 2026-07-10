@@ -1304,3 +1304,503 @@ False
 
 ---
 
+# Python Error Handling & Debugging - Complete Lesson
+
+---
+
+## 1. Understanding Tracebacks
+
+**Concept:** The traceback is best read from bottom to top, to understand what went wrong with our code.
+
+### Example 1: NameError
+
+**script.py**
+```python
+def calculate(a, b):
+    result = a / total
+
+calculate(5, 7)
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 4, in <module>
+    calculate(5, 7)
+  File "script.py", line 2, in calculate
+    result = a / total
+NameError: name "total" is not defined
+```
+
+---
+
+## 2. ModuleNotFoundError
+
+**Concept:** If Python cannot find a module, a `ModuleNotFoundError` exception will be raised.
+
+### Example 2: Misspelled Module Name
+
+**script.py**
+```python
+import tiime
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 1, in <module>
+    import tiime
+ModuleNotFoundError: No module named "tiime"
+```
+
+---
+
+## 3. IndexError
+
+**Concept:** If an index is out of range, an `IndexError` exception will be raised.
+
+### Example 3: List Index Out of Range
+
+**script.py**
+```python
+scores = [25, 50, 10]
+scores[5]
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 2, in <module>
+    scores[5]
+IndexError: list index out of range
+```
+
+---
+
+## 4. SyntaxError
+
+**Concept:** Syntax errors are returned *before* Python attempts to run the code.
+
+### Example 4: Missing Parentheses in print()
+
+**script.py**
+```python
+if count == 10:
+    print "Matching count"
+```
+
+**Output:**
+```
+File "script.py", line 2
+    print 'Matching count'
+                        ^
+SyntaxError: Missing parentheses in call to "print". Did you mean print("Matching count")?
+```
+
+---
+
+## 5. NameError After Fixing SyntaxError
+
+**Concept:** This `NameError` exception is raised only after the `SyntaxError` later in the code had been fixed.
+
+### Example 5: Undefined Variable
+
+**script.py**
+```python
+if count == 10:
+    print("Matching count")
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 1, in <module>
+    if count == 10:
+NameError: name "count" is not defined
+```
+
+---
+
+## 6. TypeError
+
+**Concept:** Error messages help us **debug** our code when it's not behaving the way we expect it to behave.
+
+### Example 6: Unsupported Operand Types
+
+**script.py**
+```python
+"coffee" / 10
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 1, in <module>
+    "coffee" / 10
+TypeError: unsupported operand type(s) for /: "str" and "int"
+```
+
+---
+
+## 7. Logic Error vs Syntax Error
+
+**Concept:** A logic error occurs when there is no error or exception, but our code does not work correctly. In this code, a parenthesis is missing.
+
+### Example 7: Unexpected EOF (End of File)
+
+**script.py**
+```python
+john = 24
+alana = 18
+
+average_age = john + alana / 2
+print(average_age
+```
+
+**Output:**
+```
+File "script.py", line 6
+
+    ^
+SyntaxError: unexpected EOF while parsing
+```
+
+---
+
+# Quiz Section
+
+---
+
+## Question 1: Traceback Last Line
+
+**Question:** What will be the last line in the traceback produced by this code?
+
+**script.py**
+```python
+while count < 5:
+    space = True
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 1, in <module>
+    while count < 5:
+NameError: name "count" is not defined
+```
+
+**Options:**
+- `NameError: name 'count' is not defined` ✅ **Correct**
+- `NameError: name 'space' is not defined`
+
+**Explanation:** The error occurs at line 1 when Python tries to evaluate `count` in the `while` loop condition. Since `count` is not defined, a `NameError` is raised immediately. The line inside the loop (`space = True`) is never reached.
+
+---
+
+## Question 2: ModuleNotFoundError
+
+**Question:** Which of the following will result in a `ModuleNotFound` error?
+
+**Options:**
+- When Python cannot find the `Module` package
+- When Python is unable to locate a module of the given name to import ✅ **Correct**
+
+**Explanation:** `ModuleNotFoundError` occurs when Python cannot find a module with the specified name to import. It is not specifically about a package named "Module".
+
+---
+
+## Question 3: IndexError vs KeyError
+
+**Question:** Will the following code result in an `IndexError`?
+
+**script.py**
+```python
+details = {"name": "Paul",
+           "city": "London"}
+
+print(details["age"])
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 4, in <module>
+    print(details['age'])
+KeyError: "age"
+```
+
+**Options:**
+- Yes - an `IndexError` will be raised
+- No - a `KeyError` will be raised ✅ **Correct**
+
+**Explanation:** Accessing a non-existent key in a dictionary raises a `KeyError`, not an `IndexError`. `IndexError` is raised when trying to access a list or sequence index that is out of range.
+
+---
+
+## Question 4: SyntaxError and Execution
+
+**Question:** Will the `print()` function be executed in the following code?
+
+**script.py**
+```python
+age = 25
+if age > 18:
+    print("you can vote:)
+else:
+```
+
+**Output:**
+```
+File "script.py", line 3
+    print("you can vote:)
+                        ^
+SyntaxError: EOL while scanning string literal
+```
+
+**Options:**
+- No - a `SyntaxError` will be raised ✅ **Correct**
+- Yes - because `print()` is before the incorrect syntax
+
+**Explanation:** Syntax errors are detected during parsing, before any code is executed. The entire file fails to run, so `print()` is never executed, even though it appears before the unclosed string.
+
+---
+
+## Question 5: Exception in Unexecuted Code
+
+**Question:** Will the following code raise an exception?
+
+**script.py**
+```python
+apples = 2
+if apples < 3:
+    print("buy apples")
+else:
+    apples - "1"
+```
+
+**Output:**
+```
+buy apples
+```
+
+**Options:**
+- No - because the `else` statement will not be executed ✅ **Correct**
+- Yes - Python will check even code which isn't executed for exceptions
+
+**Explanation:** Python does not check unexecuted branches for runtime exceptions. Since `apples = 2` and `2 < 3` is `True`, the `if` block runs and the `else` block (which contains the problematic `apples - "1"`) is skipped entirely.
+
+---
+
+## Question 6: TypeError in sum()
+
+**Question:** What will the error message tell us about what's wrong with this code?
+
+**script.py**
+```python
+total = sum([7, 8, "6"])
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 1, in <module>
+    total = sum([7, 8, '6'])
+TypeError: unsupported operand type(s) for +: "int" and "str"
+```
+
+**Options:**
+- The `sum()` function cannot be found
+- Python doesn't support adding integers and strings together ✅ **Correct**
+
+**Explanation:** The `sum()` function attempts to add all elements in the list. When it tries to add an `int` (7 or 8) with a `str` ("6"), Python raises a `TypeError` because these types cannot be added together.
+
+---
+
+# Coding Exercises
+
+---
+
+## Exercise 1: Produce unexpected EOF Error
+
+**Task:** Code a statement which will result in a traceback which includes unexpected EOF (End Of File) in the message.
+
+**Solution:**
+
+**script.py**
+```python
+max_temperature = 28
+temperature = 26
+
+if temperature > max_temperature :
+```
+
+**Output:**
+```
+File "script.py", line 5
+
+    ^
+SyntaxError: unexpected EOF while parsing
+```
+
+**Explanation:** The `if` statement is missing its body. Python reaches the end of the file while still expecting more code for the `if` block, resulting in "unexpected EOF while parsing."
+
+---
+
+## Exercise 2: Import the math Module
+
+**Task:** Code a statement which will import the `math` module.
+
+**Solution:**
+
+**script.py**
+```python
+import math
+```
+
+**Output:**
+```
+(No output - successful import)
+```
+
+---
+
+## Exercise 3: Produce an IndexError
+
+**Task:** Code a statement which will result in an `IndexError`.
+
+**Solution:**
+
+**script.py**
+```python
+reviews = [9, 8, 6, 7]
+print(reviews[6])
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 2, in <module>
+    print(reviews[6])
+IndexError: list index out of range
+```
+
+**Explanation:** The list `reviews` has 4 elements (indices 0-3). Trying to access index 6 is out of range, causing an `IndexError`.
+
+---
+
+## Exercise 4: Produce a SyntaxError
+
+**Task:** Code a statement that will produce a `SyntaxError`.
+
+**Solution:**
+
+**script.py**
+```python
+age = 45
+iff age > 50:
+    print("You are eligible.")
+```
+
+**Output:**
+```
+File "script.py", line 2
+    iff age > 50:
+        ^
+SyntaxError: invalid syntax
+```
+
+**Explanation:** `iff` is not a valid Python keyword. The correct keyword is `if`.
+
+---
+
+## Exercise 5: Raise NameError for 'time'
+
+**Task:** Code a statement which raises `NameError: name 'time' is not defined`.
+
+**Solution:**
+
+**script.py**
+```python
+distance = 55
+speed = distance / time
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 2, in <module>
+    speed = distance / time
+NameError: name "time" is not defined
+```
+
+---
+
+## Exercise 6: Count List Items (Avoid NameError)
+
+**Task:** Write code which will print how many animals are in the list, avoiding the error `NameError: name 'count' is not defined`.
+
+**Solution:**
+
+**script.py**
+```python
+animals = ['cat', 'dog', 'elephant']
+print(len(animals))
+```
+
+**Output:**
+```
+3
+```
+
+**Explanation:** Instead of using an undefined variable `count`, we use the built-in `len()` function to get the number of items in the list.
+
+---
+
+## Exercise 7: Calculate Average
+
+**Task:** Code a statement which correctly calculates the average value of the numbers in the list.
+
+**Solution:**
+
+**script.py**
+```python
+scores = [22, 15, 67, 4]
+average = sum(scores) / len(scores)
+print(average)
+```
+
+**Output:**
+```
+27.0
+```
+
+**Explanation:** The average is calculated by dividing the sum of all elements by the number of elements. `sum(scores)` = 108, `len(scores)` = 4, so 108 / 4 = 27.0.
+
+---
+
+# Summary of Python Errors Covered
+
+| Error Type | When It Occurs | Example |
+|------------|---------------|---------|
+| **SyntaxError** | Code violates Python grammar rules | Missing parentheses, misspelled keywords, unclosed strings |
+| **NameError** | Variable/function name not found | Using undefined variable `total` or `count` |
+| **TypeError** | Operation on incompatible types | Dividing string by integer, adding int and str |
+| **IndexError** | Sequence index out of range | Accessing `list[5]` when list has only 3 items |
+| **KeyError** | Dictionary key not found | Accessing `dict["age"]` when key doesn't exist |
+| **ModuleNotFoundError** | Cannot find module to import | `import tiime` (misspelled) |
+
+---
+
+# Key Takeaways
+
+1. **Tracebacks are read bottom-to-top** - The last line shows the actual error, while the lines above show the call stack.
+
+2. **SyntaxErrors happen before execution** - Python parses the entire file first; if there's a syntax error, no code runs.
+
+3. **Runtime errors only occur in executed code** - Code in unexecuted branches (like an `else` block when `if` is true) won't raise exceptions.
+
+4. **Fix syntax errors first** - A `SyntaxError` may be hiding other errors like `NameError` that would only appear after the syntax is fixed.
+
+5. **Use built-in functions** - Functions like `len()`, `sum()` help avoid common errors like undefined variables.
+
+---
