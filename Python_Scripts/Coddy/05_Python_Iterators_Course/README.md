@@ -926,3 +926,216 @@ Python's `itertools` module provides three commonly used infinite iterators:
 - `itertools.repeat()` — Repeats a single element indefinitely or a specified number of times.
 
 Although powerful, infinite iterators should always be used with care. Always include a mechanism—such as a `break` statement or another stopping condition—to prevent unintended infinite loops.
+
+# Built-in Iterator Functions in Python
+
+## Introduction
+
+Python provides several built-in functions that work with iterators, making it easier to manipulate and process iterable data. These functions help write cleaner, more readable, and more Pythonic code.
+
+In this guide, we will explore three commonly used iterator-related functions:
+
+- `enumerate()`
+- `zip()`
+- `reversed()`
+
+---
+
+# 1. `enumerate()`
+
+## What is `enumerate()`?
+
+The `enumerate()` function adds a counter to an iterable and returns an **enumerate object** (an iterator). It is useful whenever you need both the index and the value while iterating.
+
+## Syntax
+
+```python
+enumerate(iterable, start=0)
+```
+
+### Parameters
+
+- **iterable** – Any iterable object.
+- **start** *(optional)* – Starting index (default: `0`).
+
+## Example
+
+```python
+fruits = ['apple', 'banana', 'cherry']
+
+for index, fruit in enumerate(fruits):
+    print(f"{index}: {fruit}")
+```
+
+### Output
+
+```text
+0: apple
+1: banana
+2: cherry
+```
+
+### Starting from a Different Index
+
+```python
+for index, fruit in enumerate(fruits, start=1):
+    print(index, fruit)
+```
+
+Output:
+
+```text
+1 apple
+2 banana
+3 cherry
+```
+
+### Common Uses
+
+- Numbering items
+- Displaying menus
+- Tracking positions
+- Avoiding manual index variables
+
+---
+
+# 2. `zip()`
+
+## What is `zip()`?
+
+The `zip()` function combines two or more iterables into an iterator of tuples.
+
+## Syntax
+
+```python
+zip(iterable1, iterable2, ...)
+```
+
+## Example
+
+```python
+names = ['Alice', 'Bob', 'Charlie']
+ages = [25, 30, 35]
+
+for name, age in zip(names, ages):
+    print(f"{name} is {age} years old")
+```
+
+### Output
+
+```text
+Alice is 25 years old
+Bob is 30 years old
+Charlie is 35 years old
+```
+
+### Different Length Iterables
+
+```python
+letters = ['A', 'B', 'C']
+numbers = [1, 2]
+
+for pair in zip(letters, numbers):
+    print(pair)
+```
+
+Output:
+
+```text
+('A', 1)
+('B', 2)
+```
+
+### Combining More Than Two Iterables
+
+```python
+names = ["Alice", "Bob"]
+ages = [25, 30]
+countries = ["USA", "Canada"]
+
+for name, age, country in zip(names, ages, countries):
+    print(name, age, country)
+```
+
+### Creating a Dictionary
+
+```python
+people = dict(zip(names, ages))
+print(people)
+```
+
+Output:
+
+```python
+{'Alice': 25, 'Bob': 30}
+```
+
+---
+
+# 3. `reversed()`
+
+## What is `reversed()`?
+
+The `reversed()` function returns a reverse iterator that accesses a sequence from the last element to the first without copying it.
+
+## Syntax
+
+```python
+reversed(sequence)
+```
+
+## Example
+
+```python
+numbers = [1, 2, 3, 4, 5]
+
+for num in reversed(numbers):
+    print(num)
+```
+
+### Output
+
+```text
+5
+4
+3
+2
+1
+```
+
+### Converting to a List
+
+```python
+print(list(reversed(numbers)))
+```
+
+Output:
+
+```text
+[5, 4, 3, 2, 1]
+```
+
+### Reversing a String
+
+```python
+text = "Python"
+print("".join(reversed(text)))
+```
+
+Output:
+
+```text
+nohtyP
+```
+
+---
+
+# Summary
+
+Python provides three commonly used built-in iterator functions:
+
+- **`enumerate()`** adds an index while iterating.
+- **`zip()`** combines multiple iterables into tuples.
+- **`reversed()`** iterates through a sequence in reverse order.
+
+These functions simplify iteration, improve readability, and are widely used in Python programming.
