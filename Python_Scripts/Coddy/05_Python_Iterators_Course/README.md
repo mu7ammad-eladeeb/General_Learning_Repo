@@ -1139,3 +1139,779 @@ Python provides three commonly used built-in iterator functions:
 - **`reversed()`** iterates through a sequence in reverse order.
 
 These functions simplify iteration, improve readability, and are widely used in Python programming.
+
+# Itertools Module in Python
+
+## Introduction
+
+The **`itertools`** module is a built-in Python module that provides a collection of **fast**, **memory-efficient**, and **powerful** tools for working with iterators.
+
+Instead of storing all values in memory at once, most `itertools` functions generate values **lazily** (one at a time). This makes them ideal for working with large datasets, infinite sequences, and complex iteration tasks.
+
+The module contains functions for:
+
+- Creating infinite iterators
+- Combining multiple iterables
+- Slicing iterators
+- Generating Cartesian products
+- Creating permutations and combinations
+- Many other iterator-based operations
+
+To use the module:
+
+```python
+import itertools
+```
+
+---
+
+# Why Use `itertools`?
+
+The `itertools` module offers many advantages:
+
+- Faster than many manual implementations.
+- Uses less memory because it generates values only when needed.
+- Produces cleaner and shorter code.
+- Eliminates the need to write many custom loops.
+- Highly optimized because it is implemented in C.
+
+---
+
+# Categories of Functions
+
+The functions in `itertools` are divided into three major groups:
+
+1. Infinite Iterators
+2. Iterators Terminating on the Shortest Input Sequence
+3. Combinatoric Iterators
+
+---
+
+# 1. Infinite Iterators
+
+Infinite iterators continue generating values forever unless you explicitly stop them.
+
+These include:
+
+- `count()`
+- `cycle()`
+- `repeat()`
+
+---
+
+## `itertools.count()`
+
+### Purpose
+
+`count()` creates an iterator that continuously counts upward (or downward if using a negative step).
+
+It never stops unless your program stops it.
+
+### Syntax
+
+```python
+itertools.count(start=0, step=1)
+```
+
+### Parameters
+
+- **start** — The first value.
+- **step** — The amount added after each iteration.
+
+### Example
+
+```python
+import itertools
+
+for i in itertools.count(10, 2):
+    if i > 20:
+        break
+    print(i)
+```
+
+### Output
+
+```text
+10
+12
+14
+16
+18
+20
+```
+
+### How It Works
+
+The iterator starts at:
+
+```text
+10
+```
+
+Every iteration adds:
+
+```text
+2
+```
+
+Sequence:
+
+```text
+10
+↓
+12
+↓
+14
+↓
+16
+↓
+18
+↓
+20
+↓
+22
+...
+```
+
+Since the program contains:
+
+```python
+if i > 20:
+    break
+```
+
+the loop ends before printing 22.
+
+### Common Uses
+
+- Number generators
+- Infinite counters
+- ID generation
+- Time simulations
+
+---
+
+## `itertools.cycle()`
+
+### Purpose
+
+`cycle()` repeatedly loops over an iterable forever.
+
+Once it reaches the last element, it automatically starts again from the beginning.
+
+### Syntax
+
+```python
+itertools.cycle(iterable)
+```
+
+### Example
+
+```python
+import itertools
+
+colors = itertools.cycle(["red", "green", "blue"])
+
+for _ in range(6):
+    print(next(colors))
+```
+
+### Output
+
+```text
+red
+green
+blue
+red
+green
+blue
+```
+
+### How It Works
+
+The iterator remembers every item.
+
+It cycles through them repeatedly:
+
+```text
+red
+↓
+green
+↓
+blue
+↓
+red
+↓
+green
+↓
+blue
+...
+```
+
+It never raises `StopIteration`.
+
+### Common Uses
+
+- Rotating turns in games
+- Infinite playlists
+- Round-robin scheduling
+- Repeating patterns
+
+---
+
+## `itertools.repeat()`
+
+### Purpose
+
+`repeat()` repeatedly returns the same object.
+
+It can repeat:
+
+- Forever
+- A specified number of times
+
+### Syntax
+
+```python
+itertools.repeat(element)
+```
+
+or
+
+```python
+itertools.repeat(element, times)
+```
+
+### Example
+
+```python
+import itertools
+
+for word in itertools.repeat("Python", 3):
+    print(word)
+```
+
+### Output
+
+```text
+Python
+Python
+Python
+```
+
+### Infinite Example
+
+```python
+import itertools
+
+iterator = itertools.repeat("Hello")
+
+for _ in range(5):
+    print(next(iterator))
+```
+
+Output
+
+```text
+Hello
+Hello
+Hello
+Hello
+Hello
+```
+
+Without limiting the loop, it would continue forever.
+
+### Common Uses
+
+- Filling data
+- Supplying constant arguments
+- Creating repeated values
+
+---
+
+# 2. Iterators Terminating on the Shortest Input Sequence
+
+Unlike infinite iterators, these eventually stop.
+
+They generally terminate when one or more input iterables become exhausted.
+
+These include:
+
+- `chain()`
+- `islice()`
+- `zip_longest()`
+
+---
+
+## `itertools.chain()`
+
+### Purpose
+
+`chain()` combines multiple iterables into one continuous iterator.
+
+Instead of nested loops, everything behaves like a single sequence.
+
+### Syntax
+
+```python
+itertools.chain(*iterables)
+```
+
+### Example
+
+```python
+import itertools
+
+numbers = itertools.chain(
+    [1, 2, 3],
+    [4, 5, 6]
+)
+
+print(list(numbers))
+```
+
+### Output
+
+```text
+[1, 2, 3, 4, 5, 6]
+```
+
+### How It Works
+
+Instead of:
+
+```text
+List 1
+
+1
+2
+3
+
+List 2
+
+4
+5
+6
+```
+
+`chain()` presents them as one iterator:
+
+```text
+1
+2
+3
+4
+5
+6
+```
+
+### Common Uses
+
+- Joining multiple datasets
+- Reading several files
+- Combining lists
+- Combining generators
+
+---
+
+## `itertools.islice()`
+
+### Purpose
+
+`islice()` extracts selected elements from an iterator without converting it into a list.
+
+It behaves similarly to list slicing.
+
+### Syntax
+
+```python
+itertools.islice(iterable, start, stop[, step])
+```
+
+### Parameters
+
+- **iterable**
+- **start**
+- **stop**
+- **step** (optional)
+
+### Example
+
+```python
+import itertools
+
+numbers = itertools.count()
+
+print(list(itertools.islice(numbers, 5, 10)))
+```
+
+### Output
+
+```text
+[5, 6, 7, 8, 9]
+```
+
+### How It Works
+
+`count()` generates:
+
+```text
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+...
+```
+
+`islice(numbers, 5, 10)` skips:
+
+```text
+0
+1
+2
+3
+4
+```
+
+and returns:
+
+```text
+5
+6
+7
+8
+9
+```
+
+### Common Uses
+
+- Reading part of an iterator
+- Sampling data
+- Pagination
+
+---
+
+## `itertools.zip_longest()`
+
+### Purpose
+
+`zip_longest()` works like Python's `zip()`, but it continues until the **longest iterable** is exhausted.
+
+Missing values are replaced with a fill value.
+
+### Syntax
+
+```python
+itertools.zip_longest(*iterables, fillvalue=None)
+```
+
+### Example
+
+```python
+import itertools
+
+letters = ["A", "B"]
+numbers = [1, 2, 3]
+
+result = itertools.zip_longest(
+    letters,
+    numbers,
+    fillvalue="-"
+)
+
+print(list(result))
+```
+
+### Output
+
+```text
+[
+    ('A', 1),
+    ('B', 2),
+    ('-', 3)
+]
+```
+
+### How It Works
+
+Normal `zip()` would produce:
+
+```text
+('A',1)
+('B',2)
+```
+
+because it stops when the shortest iterable ends.
+
+`zip_longest()` continues:
+
+```text
+('A',1)
+('B',2)
+('-',3)
+```
+
+### Common Uses
+
+- Merging unequal datasets
+- Comparing sequences
+- Handling missing values
+
+---
+
+# 3. Combinatoric Iterators
+
+These functions generate mathematical arrangements of data.
+
+They include:
+
+- `product()`
+- `permutations()`
+- `combinations()`
+
+---
+
+## `itertools.product()`
+
+### Purpose
+
+Produces the **Cartesian product** of multiple iterables.
+
+Every element from one iterable is paired with every element from another.
+
+### Syntax
+
+```python
+itertools.product(*iterables, repeat=1)
+```
+
+### Example
+
+```python
+import itertools
+
+print(list(itertools.product([1,2],["A","B"])))
+```
+
+### Output
+
+```text
+[
+(1,'A'),
+(1,'B'),
+(2,'A'),
+(2,'B')
+]
+```
+
+### How It Works
+
+```
+1 pairs with A
+1 pairs with B
+2 pairs with A
+2 pairs with B
+```
+
+Every possible pairing is generated.
+
+### Common Uses
+
+- Grid generation
+- Password brute force
+- Game combinations
+- Mathematical products
+
+---
+
+## `itertools.permutations()`
+
+### Purpose
+
+Generates every possible **ordered arrangement**.
+
+Order matters.
+
+### Syntax
+
+```python
+itertools.permutations(iterable, r=None)
+```
+
+### Example
+
+```python
+import itertools
+
+letters = "ABC"
+
+print(list(itertools.permutations(letters,2)))
+```
+
+### Output
+
+```text
+[
+('A','B'),
+('A','C'),
+('B','A'),
+('B','C'),
+('C','A'),
+('C','B')
+]
+```
+
+### How It Works
+
+```
+AB
+
+BA
+```
+
+are considered different because order changes.
+
+### Common Uses
+
+- Arranging objects
+- Scheduling
+- Password generation
+- Search algorithms
+
+---
+
+## `itertools.combinations()`
+
+### Purpose
+
+Generates every possible selection of elements.
+
+Unlike permutations, **order does not matter**.
+
+### Syntax
+
+```python
+itertools.combinations(iterable,r)
+```
+
+### Example
+
+```python
+import itertools
+
+letters = "ABCD"
+
+print(list(itertools.combinations(letters,2)))
+```
+
+### Output
+
+```text
+[
+('A','B'),
+('A','C'),
+('A','D'),
+('B','C'),
+('B','D'),
+('C','D')
+]
+```
+
+### How It Works
+
+```
+AB
+```
+
+and
+
+```
+BA
+```
+
+are treated as the same combination.
+
+Therefore only one appears.
+
+### Common Uses
+
+- Team selection
+- Lottery numbers
+- Choosing subsets
+- Statistical sampling
+
+---
+
+# Complete Example
+
+```python
+import itertools
+
+# count()
+for i in itertools.count(10,2):
+    if i > 20:
+        break
+    print(i)
+
+# cycle()
+colors = itertools.cycle(["red","green","blue"])
+
+for _ in range(6):
+    print(next(colors))
+
+# chain()
+numbers = itertools.chain([1,2,3],[4,5,6])
+print(list(numbers))
+
+# combinations()
+letters = "ABCD"
+print(list(itertools.combinations(letters,2)))
+```
+
+---
+
+# Advantages of `itertools`
+
+- Built into Python
+- Very fast
+- Memory efficient
+- Produces values lazily
+- Simplifies complex loops
+- Excellent for data processing
+- Commonly used in data science and competitive programming
+
+---
+
+# Summary
+
+The **`itertools`** module provides efficient tools for working with iterators.
+
+Its functions are divided into three categories:
+
+## Infinite Iterators
+
+- `count()` → Infinite counting
+- `cycle()` → Infinite repetition of an iterable
+- `repeat()` → Infinite or fixed repetition of one object
+
+## Iterators Terminating on the Shortest Input Sequence
+
+- `chain()` → Joins multiple iterables
+- `islice()` → Slices iterators
+- `zip_longest()` → Combines iterables until the longest one finishes
+
+## Combinatoric Iterators
+
+- `product()` → Cartesian product
+- `permutations()` → Ordered arrangements
+- `combinations()` → Unordered selections
+
+Using these tools allows you to write cleaner, faster, and more memory-efficient Python code while avoiding unnecessary loops and temporary lists.
