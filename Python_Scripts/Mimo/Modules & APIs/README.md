@@ -1804,3 +1804,306 @@ print(average)
 5. **Use built-in functions** - Functions like `len()`, `sum()` help avoid common errors like undefined variables.
 
 ---
+
+
+# Python Raising Exceptions: A Complete Guide
+
+> A comprehensive guide to raising custom exceptions in Python using the `raise` keyword.
+
+---
+
+## Why Raise Exceptions?
+
+Sometimes we want to **raise** an exception when a condition we have defined is not met. We can use exceptions to highlight when something cannot be working as it should be.
+
+---
+
+## The `raise` Keyword
+
+The `raise` keyword is used to raise an exception. We can define both the kind of error and the error message.
+
+### Raising a Generic Exception
+
+**Example:** Raising a generic `Exception` when there are no diners.
+
+```python
+slices = 18
+diners = 0
+if diners < 1:
+    raise Exception("There must be at least one diner")
+else:
+    slices_each = slices / diners
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 5, in <module>
+    raise Exception("There must be at least one diner")
+Exception: There must be at least one diner
+```
+
+---
+
+## Raising Specific Exception Types
+
+### `ValueError`
+
+`ValueError` is raised when an operation receives an argument with the right type but an inappropriate value.
+
+**Example 1:** Raising `ValueError` for a negative age.
+
+```python
+age = -3
+if not age >= 0:
+    raise ValueError("age cannot be negative")
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 3, in <module>
+    raise ValueError("age cannot be negative")
+ValueError: age cannot be negative
+```
+
+**Example 2:** Raising `ValueError` for negative predicted sales.
+
+```python
+predicted_sales = -5
+if predicted_sales < 0:
+    raise ValueError("predicted_sales cannot be negative")
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 3, in <module>
+    raise ValueError("predicted_sales cannot be negative")
+ValueError: predicted_sales cannot be negative
+```
+
+---
+
+## Validating Inputs with `raise`
+
+We can use conditions to **validate** inputs, and raise an exception when the conditions are not met.
+
+**Example:** Validating that all scores are within an acceptable range.
+
+```python
+scores = [125, 60, 189, 88, 16]
+if min(scores) < 0 or max(scores) > 180:
+    raise ValueError("Error in scores")
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 3, in <module>
+    raise ValueError("Error in scores")
+ValueError: Error in scores
+```
+
+> The score `189` exceeds the maximum allowed value of `180`, so the exception is raised.
+
+---
+
+## Knowledge Check: Quiz
+
+### Question 1
+**Which keyword do we use to produce an exception in the output?**
+
+- `raise` ✅
+- `show`
+
+> **Answer:** `raise` — The `raise` keyword is used to manually trigger an exception.
+
+---
+
+### Question 2
+**How do we provide an error message to be shown when a user-defined exception is raised?**
+
+- We cannot define our own error message
+- A string in parenthesis after the type of error ✅
+
+> **Answer:** A string in parenthesis after the type of error — e.g., `raise ValueError("This is my message")`.
+
+---
+
+### Question 3
+**Which type of error will be raised by the following code?**
+
+```python
+age = 1000
+try:
+    adult_years = age - 18
+except:
+    raise TypeError("Input is not a number")
+else:
+    if adult_years > 150:
+        raise ValueError("Age is too large")
+```
+
+- `ValueError` ✅
+- `TypeError`
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 8, in <module>
+    raise ValueError("Age is too large")
+ValueError: Age is too large
+```
+
+> **Answer:** `ValueError` — The `try` block succeeds (1000 - 18 = 982), so the `except` block is skipped. The `else` block runs, and since `982 > 150`, it raises a `ValueError`.
+
+---
+
+### Question 4
+**Which type of error will the following code produce?**
+
+```python
+temperatures = [33, 16, 23, 18]
+if temperatures[6] > 45:
+    raise ValueError
+```
+
+- `IndexError` ✅
+- `ValueError`
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 2, in <module>
+    if temperatures[6] > 45:
+IndexError: list index out of range
+```
+
+> **Answer:** `IndexError` — The list only has 4 elements (indices 0-3), so accessing index 6 raises an `IndexError` before the `raise ValueError` line is ever reached.
+
+---
+
+## Hands-On Exercises
+
+### Exercise 1: Raise an Exception for Division by Zero
+
+**Task:** Write code which will raise a suitable exception if `days` is zero.
+
+```python
+days = 0
+jobs = 6
+if days == 0:
+    raise ValueError("Cannot calculate average")
+else:
+    average = jobs / days
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 4, in <module>
+    raise ValueError("Cannot calculate average")
+ValueError: Cannot calculate average
+```
+
+---
+
+### Exercise 2: Validate Input Data
+
+**Task:** Complete the code so that the error message is shown when there are more users than desks.
+
+```python
+desks = 6
+users = 7
+if users > desks:
+    raise ValueError("Input data is not valid")
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 5, in <module>
+    raise ValueError("Input data is not valid")
+ValueError: Input data is not valid
+```
+
+---
+
+### Exercise 3: Raise a `KeyError`
+
+**Task:** Write code that will raise a `KeyError` when an email is not found in the details dictionary.
+
+```python
+details = {"name": "Paul", "score": 55}
+try:
+    details["email"]
+except:
+    raise KeyError("Email not found in details")
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 5, in <module>
+    raise KeyError("Email not found in details")
+KeyError: "Email not found in details"
+```
+
+---
+
+### Exercise 4: Raise a `LookupError`
+
+**Task:** Write code which will raise a `LookupError` if `member` is not found in the `access` list.
+
+```python
+access = ["John", "Chloe", "Sandra"]
+member = "Jennifer"
+if member not in access:
+    raise LookupError("Member not recognized")
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 4, in <module>
+    raise LookupError("Member not recognised")
+LookupError: Member not recognized
+```
+
+> Note: `LookupError` is the base class for `KeyError` and `IndexError`, used when a lookup operation fails.
+
+---
+
+## Quick Reference
+
+| Syntax | Description |
+|---|---|
+| `raise Exception("message")` | Raise a generic exception with a message |
+| `raise ValueError("message")` | Raise a value-related error |
+| `raise KeyError("message")` | Raise a dictionary key error |
+| `raise LookupError("message")` | Raise a lookup failure error |
+| `raise TypeError("message")` | Raise a type-related error |
+
+---
+
+## Summary
+
+- Use the **`raise`** keyword to manually trigger exceptions.
+- You can raise **generic** `Exception` objects or **specific** exception types like `ValueError`, `KeyError`, `LookupError`, etc.
+- Provide a **custom error message** by passing a string inside parentheses: `raise ValueError("Your message here")`.
+- Use `raise` with **conditional checks** to validate inputs and enforce business rules.
+- The exception type should match the nature of the error (e.g., `ValueError` for invalid values, `KeyError` for missing dictionary keys).
+
+---
+
+> **Happy Coding!** 🐍
+"""
+
+# Save to file
+with open('/mnt/agents/output/python_raising_exceptions_guide.md', 'w', encoding='utf-8') as f:
+    f.write(markdown_content)
+
+print("Markdown file generated successfully!")
+print(f"Total characters: {len(markdown_content)}")
+print(f"Total lines: {len(markdown_content.splitlines())}")
