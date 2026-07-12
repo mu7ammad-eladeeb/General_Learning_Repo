@@ -1915,3 +1915,466 @@ Its functions are divided into three categories:
 - `combinations()` → Unordered selections
 
 Using these tools allows you to write cleaner, faster, and more memory-efficient Python code while avoiding unnecessary loops and temporary lists.
+
+# Generator Expressions in Python
+
+## Introduction
+
+**Generator expressions** are a concise way to create **iterators** in Python. They provide a **memory-efficient** alternative to list comprehensions because they generate values **one at a time** instead of creating an entire list in memory.
+
+Generator expressions are especially useful when working with:
+
+- Large datasets
+- Infinite sequences
+- Streams of data
+- Data processing pipelines
+
+---
+
+# Syntax of Generator Expressions
+
+A generator expression has a syntax very similar to a list comprehension.
+
+The only difference is that it uses **parentheses `()`** instead of **square brackets `[]`**.
+
+## Syntax
+
+```python
+(expression for item in iterable if condition)
+```
+
+### Components
+
+- **expression** – The value to generate.
+- **item** – The current element from the iterable.
+- **iterable** – Any iterable object (such as a list, tuple, string, or range).
+- **if condition** *(optional)* – Filters which elements are generated.
+
+---
+
+# How Generator Expressions Work
+
+Unlike list comprehensions, generator expressions **do not calculate every value immediately**.
+
+Instead, they generate values **only when they are requested**.
+
+This process is called **lazy evaluation**.
+
+For example:
+
+```python
+numbers = (x for x in range(5))
+```
+
+At this point, **no numbers have been generated yet**.
+
+The values are produced only when you iterate over the generator.
+
+---
+
+# Example Usage
+
+Suppose you want to generate square numbers.
+
+```python
+squares = (x ** 2 for x in range(5))
+
+for square in squares:
+    print(square)
+```
+
+### Output
+
+```text
+0
+1
+4
+9
+16
+```
+
+### Explanation
+
+The generator expression
+
+```python
+(x ** 2 for x in range(5))
+```
+
+does not immediately calculate all five square numbers.
+
+Instead, each iteration performs the following steps:
+
+```
+x = 0 → 0² = 0
+
+↓
+
+x = 1 → 1² = 1
+
+↓
+
+x = 2 → 2² = 4
+
+↓
+
+x = 3 → 3² = 9
+
+↓
+
+x = 4 → 4² = 16
+```
+
+Each value is produced only when the `for` loop requests it.
+
+---
+
+# Lazy Evaluation
+
+One of the most important characteristics of generator expressions is **lazy evaluation**.
+
+Lazy evaluation means:
+
+- Values are generated one at a time.
+- Nothing is computed until it is needed.
+- Memory usage stays low.
+
+Example:
+
+```python
+generator = (x for x in range(1000000))
+```
+
+Although the range contains one million numbers, Python does **not** store one million values in memory.
+
+Instead, only one value exists at any given time.
+
+---
+
+# Single-Use Iterators
+
+A generator expression creates a **generator object**, which is an iterator.
+
+Like all iterators, it can only be used once.
+
+Example
+
+```python
+numbers = (x for x in range(5))
+
+for num in numbers:
+    print(num)
+
+print("Again:")
+
+for num in numbers:
+    print(num)
+```
+
+### Output
+
+```text
+0
+1
+2
+3
+4
+
+Again:
+```
+
+Nothing is printed the second time.
+
+### Why?
+
+The generator has already produced all of its values.
+
+Once exhausted, it raises `StopIteration`.
+
+To iterate again, you must create a new generator.
+
+```python
+numbers = (x for x in range(5))
+```
+
+---
+
+# Concise Syntax
+
+Generator expressions provide a compact alternative to writing generator functions.
+
+Instead of writing several lines of code, a generator expression can often accomplish the same task in a single line.
+
+Example
+
+```python
+(x * 2 for x in range(10))
+```
+
+This creates a generator that produces doubled numbers.
+
+---
+
+# Comparison with List Comprehensions
+
+Generator expressions look almost identical to list comprehensions.
+
+## List Comprehension
+
+```python
+squares_list = [x ** 2 for x in range(1000000)]
+```
+
+This creates **one million values immediately**.
+
+The entire list is stored in memory.
+
+Memory usage:
+
+```
+High
+```
+
+---
+
+## Generator Expression
+
+```python
+squares_gen = (x ** 2 for x in range(1000000))
+```
+
+This creates only a generator object.
+
+Values are produced one at a time.
+
+Memory usage:
+
+```
+Very Low
+```
+
+---
+
+# List Comprehension vs Generator Expression
+
+## List Comprehension
+
+```python
+numbers = [x for x in range(5)]
+```
+
+Immediately creates
+
+```python
+[0, 1, 2, 3, 4]
+```
+
+Everything already exists in memory.
+
+---
+
+## Generator Expression
+
+```python
+numbers = (x for x in range(5))
+```
+
+Initially
+
+```
+Generator Object
+```
+
+The values are generated only when requested.
+
+---
+
+# Memory Efficiency
+
+Consider
+
+```python
+range(1000000)
+```
+
+A list comprehension creates
+
+```
+1,000,000 integers
+```
+
+and stores all of them in memory.
+
+A generator expression creates
+
+```
+One integer
+
+↓
+
+Next integer
+
+↓
+
+Next integer
+
+↓
+
+...
+```
+
+Only one value exists at a time.
+
+This makes generator expressions ideal for processing large amounts of data.
+
+---
+
+# Using next()
+
+Since a generator is an iterator, it can be used with `next()`.
+
+Example
+
+```python
+numbers = (x for x in range(5))
+
+print(next(numbers))
+print(next(numbers))
+print(next(numbers))
+```
+
+### Output
+
+```text
+0
+1
+2
+```
+
+Each call to `next()` requests the next value.
+
+---
+
+# Generator Exhaustion
+
+Eventually, every generator runs out of values.
+
+Example
+
+```python
+numbers = (x for x in range(2))
+
+print(next(numbers))
+print(next(numbers))
+print(next(numbers))
+```
+
+The final call raises
+
+```python
+StopIteration
+```
+
+because there are no more values.
+
+---
+
+# Filtering Values
+
+Generator expressions can include conditions.
+
+Example
+
+```python
+even_numbers = (
+    x
+    for x in range(10)
+    if x % 2 == 0
+)
+
+for number in even_numbers:
+    print(number)
+```
+
+### Output
+
+```text
+0
+2
+4
+6
+8
+```
+
+The condition
+
+```python
+if x % 2 == 0
+```
+
+filters out odd numbers.
+
+---
+
+# Use Cases
+
+Generator expressions are especially useful when:
+
+- Working with large datasets.
+- Reading large files.
+- Processing streams of data.
+- Creating data-processing pipelines.
+- Performing calculations without storing intermediate results.
+- Saving memory.
+
+---
+
+# Advantages
+
+Generator expressions provide several benefits:
+
+- Memory efficient.
+- Fast startup because values are generated only when needed.
+- Cleaner and shorter code.
+- Easy to combine with iterator functions.
+- Ideal for large collections of data.
+
+---
+
+# Limitations
+
+Generator expressions also have some limitations:
+
+- They can only be iterated once.
+- They do not support indexing.
+
+For example,
+
+```python
+generator = (x for x in range(5))
+
+generator[0]
+```
+
+raises an error because generators are not sequences.
+
+---
+
+# Summary
+
+Generator expressions provide a concise and memory-efficient way to create iterators in Python.
+
+Their syntax is
+
+```python
+(expression for item in iterable if condition)
+```
+
+Key characteristics include:
+
+- Lazy evaluation
+- Memory efficiency
+- Single-use iterators
+- Concise syntax
+
+Compared with list comprehensions, generator expressions do **not** store all values in memory at once. Instead, they generate values only when requested, making them an excellent choice for processing large datasets and building efficient data pipelines.
