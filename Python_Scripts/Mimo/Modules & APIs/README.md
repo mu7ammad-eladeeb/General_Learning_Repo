@@ -2107,3 +2107,337 @@ with open('/mnt/agents/output/python_raising_exceptions_guide.md', 'w', encoding
 print("Markdown file generated successfully!")
 print(f"Total characters: {len(markdown_content)}")
 print(f"Total lines: {len(markdown_content.splitlines())}")
+
+# Python Exception Handling — Complete Lesson Notes
+
+---
+
+## 1. What is Exception Handling?
+
+We often don't want a program to terminate when an exception is encountered. A `try` and `except` block can be used for **exception handling**.
+
+### Example: Basic try/except
+
+```python
+try:
+    login(user)
+except:
+    print("User not known, please try again")
+```
+
+**Output:**
+```
+User not known, please try again
+```
+
+---
+
+## 2. When to Use try/except
+
+`try` and `except` blocks tend to be used where we know there is a chance of the operation not being possible.
+
+### Example: Handling division by zero
+
+```python
+hours = []
+
+try:
+    average = sum(hours) / len(hours)
+except:
+    average = 0
+
+print(average)
+```
+
+**Output:**
+```
+0
+```
+
+---
+
+## 3. Using `pass` in except Blocks
+
+`try:` and `except:` are followed by an indented block of code. We can use `pass` if we want nothing to be executed after `except:`.
+
+### Example: Silencing an exception
+
+```python
+try:
+    print("Hello, " + user)
+except:
+    pass
+```
+
+---
+
+## 4. Raising Custom Errors with `raise`
+
+The `raise` keyword is used along with a valid type of error and an optional message. It is usually used within an `except` code block.
+
+### Example: Raising a ValueError
+
+```python
+try:
+    10 + score
+except:
+    raise ValueError("Invalid score")
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 4, in <module>
+    raise ValueError("Invalid score")
+ValueError: Invalid score
+```
+
+---
+
+## 5. The `else` Clause
+
+We can use an `else` statement at the end if we want to execute some code **only when no error has been raised**.
+
+### Example: else with try/except
+
+```python
+details = {"name": "Helena",
+           "occupation": "carpenter",
+           "age": 35}
+
+try:
+    age = details["age"]
+except:
+    raise NameError("No age value in record")
+else:
+    print(f"Maximum heart rate is {220 - age}")
+```
+
+**Output:**
+```
+Maximum heart rate is 185
+```
+
+---
+
+## 6. The `finally` Clause
+
+We can use a `finally` statement at the end if we want to execute some related code **regardless of whether an error was raised**.
+
+### Example: finally always runs
+
+```python
+entry = 50
+
+try:
+    result = entry * 1.5
+except:
+    raise ValueError("result cannot be calculated")
+else:
+    print(result)
+finally:
+    print("Try another value?")
+```
+
+**Output:**
+```
+75.0
+Try another value?
+```
+
+---
+
+## 7. Quiz Questions & Answers
+
+### Q1: Why might we want to use a try and except block?
+
+**Answer:** To allow our program to handle errors effectively and continue running.
+
+---
+
+### Q2: Which of the following situations might we use a try and except block for?
+
+**Answer:** When we are not sure whether the user input will be valid.
+
+---
+
+### Q3: What happens when the `pass` keyword is executed?
+
+**Answer:** Nothing — Python moves on to the next code block.
+
+---
+
+### Q4: When is the `raise` keyword used?
+
+**Answer:** When we want to highlight that an error has occurred.
+
+---
+
+### Q5: What will the output of the following code be?
+
+```python
+try:
+    value = 5 + 5
+except:
+    raise ValueError
+else:
+    print(value)
+```
+
+**Answer:** `10`
+
+> Since `5 + 5` succeeds without error, the `except` block is skipped and the `else` block runs, printing `10`.
+
+---
+
+### Q6: When should the `finally` statement be used?
+
+**Answer:** At the end of a `try` and `except` block, to execute code whether or not an exception occurred.
+
+---
+
+## 8. Coding Exercises
+
+### Exercise 1: Raise a ValueError
+
+**Task:** Write code which will raise a `ValueError`.
+
+```python
+count = '7'
+
+try:
+    10 / count
+except:
+    raise ValueError("Count is not valid")
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 6, in <module>
+    raise ValueError("Count is not valid")
+ValueError: Count is not valid
+```
+
+---
+
+### Exercise 2: Produce a ValueError if users is empty
+
+**Task:** Write code which will produce a `ValueError` if `users` is empty.
+
+```python
+users = []
+
+try:
+    allocation = 100 / len(users)
+except:
+    raise ValueError("No users found")
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 7, in <module>
+    raise ValueError("No users found")
+ValueError: No users found
+```
+
+---
+
+### Exercise 3: Do nothing if an exception is encountered
+
+**Task:** Write code which will do nothing if an exception is encountered, and execute the rest of the code.
+
+```python
+try:
+    print(message)
+except:
+    pass
+
+print("Thank you")
+```
+
+**Output:**
+```
+Thank you
+```
+
+---
+
+### Exercise 4: Show an error message
+
+**Task:** Complete the code so that the error message will be shown.
+
+```python
+weight = -5
+
+if weight < 0:
+    raise ValueError("Weight cannot be negative")
+```
+
+**Output:**
+```
+Traceback (most recent call last):
+  File "script.py", line 4, in <module>
+    raise ValueError("Weight cannot be negative")
+ValueError: Weight cannot be negative
+```
+
+---
+
+### Exercise 5: Execute the else statement
+
+**Task:** Complete the code so that the `else` statement is executed.
+
+```python
+cost = 50
+
+try:
+    dollars = cost * 1.5
+except:
+    raise Exception("Calculation not possible")
+else:
+    euros = cost * 1.1
+    print(euros)
+```
+
+**Output:**
+```
+55.00000000000001
+```
+
+---
+
+### Exercise 6: Print result regardless of values
+
+**Task:** Complete the code so that `result` is printed at the end, regardless of the values for `score_a` and `score_b`.
+
+```python
+score_a = 5
+score_b = 3
+
+try:
+    multiplier = score_a / score_b
+except:
+    multiplier = "Cannot be calculated"
+finally:
+    print(multiplier)
+```
+
+**Output:**
+```
+1.6666666666666667
+```
+
+---
+
+## Key Takeaways
+
+| Concept | Purpose |
+|---------|---------|
+| `try` | Attempts to run code that might cause an error |
+| `except` | Catches and handles exceptions |
+| `pass` | Does nothing — useful as a placeholder |
+| `raise` | Manually triggers an exception |
+| `else` | Runs only if no exception occurred |
+| `finally` | Always runs, regardless of whether an exception occurred |
