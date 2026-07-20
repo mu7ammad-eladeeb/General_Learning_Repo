@@ -175,3 +175,37 @@ Rest of code
 
 Using `try-except` prevents the program from terminating unexpectedly
 when an exception occurs.
+
+# else
+
+We can use optional `else` block with `try-except` statement.
+
+It is useful for code that must be executed if the `try` block does **not** raise an exception.
+
+## Example
+
+```python
+try:
+    a = 10
+    b = "hello"
+    result = a + b  # code which can cause exception
+except TypeError:
+    print("Cannot do addition")  # code to handle exception
+else:
+    print("Addition performed successfully")  # code to be executed when no exception in try block
+```
+
+In the above example, an exception is generated and control goes to the `except` block. Therefore, the `else` block will **not** be executed.
+
+If you set:
+
+```python
+b = 20
+```
+
+No exception will occur, and the `else` block will be executed.
+
+- **Exception** → `except` block
+- **No Exception** → `else` block
+
+> **Note:** Either the `except` block or the `else` block will be executed.
