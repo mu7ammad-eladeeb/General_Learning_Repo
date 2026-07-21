@@ -231,3 +231,26 @@ In above example, Exception will be raised if data.txt doesn't exist and except 
 If file exists, control goes to else block because of no exception and interpreter will read the data. 
 
 Finally block is executed in both cases which will perform cleanup activities, mandatory code, system operations, releasing memory etc
+
+# Challenge
+Easy
+
+Write a function to add new key-value pairs into given dictionary. Handle TypeError when user enters mutable keys i.e list and print "Cannot give mutable keys". If key-value added successfully, then print added value for new key. Finally, print a dictionary after operation is done. 
+
+## Solution
+```python
+data = {
+    'John' : 89,
+    'Mike' : 91,
+    'Angela': 85,
+}
+
+def insert_data(key, value):
+    try:
+        data[key] = value
+    except TypeError:
+        print("Cannot give mutable keys")
+    else:
+        print(data[key])
+    finally:
+        print(data)
