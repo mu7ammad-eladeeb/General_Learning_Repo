@@ -209,3 +209,25 @@ No exception will occur, and the `else` block will be executed.
 - **No Exception** → `else` block
 
 > **Note:** Either the `except` block or the `else` block will be executed.
+
+# Finally Block in Python
+
+Finally
+There is another optional block which is called finally.
+This block is executed under all circumstances. This block runs whether or not the try statement produces an Exception.
+
+```python
+try:
+    f = open("data.txt", encoding='utf-8')
+except FileNotFoundError:
+    print("File does not exist")
+else:
+    print(f.read())
+finally:
+    print("cleanup activities like closing file")
+```
+In above example, Exception will be raised if data.txt doesn't exist and except block will be executed.
+
+If file exists, control goes to else block because of no exception and interpreter will read the data. 
+
+Finally block is executed in both cases which will perform cleanup activities, mandatory code, system operations, releasing memory etc
