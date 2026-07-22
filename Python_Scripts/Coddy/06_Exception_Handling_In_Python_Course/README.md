@@ -254,3 +254,68 @@ def insert_data(key, value):
         print(data[key])
     finally:
         print(data)
+```
+# Printing Exception Message
+
+```python
+f = open("data.txt", encoding='utf-8')
+my_data = f.read()
+print(my_data)
+```
+
+If `data.txt` doesn't exist, `FileNotFoundError` will be raised and below message gets printed on console.
+
+```text
+Traceback (most recent call last):
+  File "C:/Users/Lenovo/Desktop/example.py", line 1, in <module>
+    f = open("data.txt",encoding='utf-8')
+FileNotFoundError: [Errno 2] No such file or directory: 'data.txt'
+```
+
+Above message includes:
+
+- Traceback details
+- Exception Name
+- Exception Message
+
+We can print above details in except block so user will get an idea what happened.
+
+## Syntax
+
+```python
+except ExceptionName as object_Name:
+    print(object_Name)
+```
+
+```python
+try:
+    f = open("data.txt", encoding='utf-8')
+    my_data = f.read()
+    print(my_data)
+except FileNotFoundError as obj:
+    print(obj)
+```
+
+If `data.txt` doesn't exist, control goes to except block and Exception message will be stored in `obj` object and it will be printed.
+
+---
+
+# Challenge
+
+**Easy**
+
+You will have list as input. Write a program to sum all elements in a list. If it encounters an exception during summation, it will raise an Exception. Otherwise, it will print summation. The Exception type is `TypeError` and text will be standard message text. (use for loop only and not `sum()`)
+
+## Solution
+
+```python
+def summation(my_list):
+    try:
+        sum1 = 0
+        for ele in my_list:
+            sum1 = sum1 + ele
+    except TypeError as obj:
+        print(obj)
+    else:
+        print(sum1)
+```
