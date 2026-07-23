@@ -319,3 +319,67 @@ def summation(my_list):
     else:
         print(sum1)
 ```
+
+# Printing Exception Name
+
+## Printing Exception Name
+
+We can print the name of an exception using the exception object's `__class__` attribute.
+
+### Syntax
+
+```python
+try:
+    # code which can cause exception
+except ExceptionName as object_name:
+    print(object_name.__class__)
+```
+
+Here:
+- `object_name` stores the exception object.
+- `object_name.__class__` returns the class of the exception (for example, `<class 'TypeError'>`).
+
+---
+
+## Challenge
+Easy
+
+You are given a list as input. Write a function `summation(my_list)` that calculates the sum of all elements in the list.
+
+- If all elements are valid numbers, print the total sum.
+- If an exception occurs during summation, handle the exception.
+- The exception type is **TypeError**.
+- Print the exception in the following format:
+
+```text
+<class 'TypeError'>:Standard message
+```
+
+Use an **f-string** to print the exception.
+
+---
+
+## Hint
+
+Use an f-string to print both the exception class and the exception message.
+
+```python
+print(f"{obj.__class__}:{obj}")
+```
+
+---
+
+## Solution
+
+```python
+def summation(my_list):
+    try:
+        sum1 = 0
+        for ele in my_list:
+            sum1 = sum1 + ele
+    except TypeError as obj:
+        print(f"{obj.__class__}:{obj}")
+    else:
+        print(sum1)
+```
+
