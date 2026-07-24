@@ -383,3 +383,60 @@ def summation(my_list):
         print(sum1)
 ```
 
+# Handling Multiple Exceptions
+
+Suppose there is a possibility of multiple exceptions in your code. You can handle all exceptions as follows:
+
+```python
+try:
+    # code which can cause
+    # TypeError, ValueError, ZeroDivisionError
+except (TypeError, ValueError, ZeroDivisionError) as obj:
+    print(obj)
+```
+
+If any of the above three exceptions occurs, control goes to the `except` block and the program does not terminate.
+
+## Handle Any Exception
+
+If you are not sure which exception will occur, do not write anything after the `except` keyword.
+
+```python
+try:
+    # code which can cause
+    # TypeError, ValueError, ZeroDivisionError
+except:
+    print("Something went wrong")
+```
+
+The above syntax handles any exception from the `try` block, but you will not have an object to print exception information.
+
+Use the following syntax instead:
+
+```python
+try:
+    # code which can cause
+    # TypeError, ValueError, ZeroDivisionError
+except Exception as obj:
+    print(obj)
+```
+
+The above syntax handles any exception raised in the `try` block, and you can print the exception message using `obj`.
+
+## Challenge
+
+**Easy**
+
+Complete the function `calculator` which takes two integers as arguments and performs division. Handle all causing exceptions and print the standard message. If no exception occurs, print the result using the `else` block.
+
+### Solution
+
+```python
+def calculator(n1, n2):
+    try:
+        div = n1 / n2
+    except Exception as obj:
+        print(obj)
+    else:
+        print(div)
+```
